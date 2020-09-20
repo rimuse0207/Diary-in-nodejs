@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/texts.css" />
+    <style>
+
+        </style>
+  </head>
+  
+  
+      <div class="sidenav">
+          <% if(locals.name) {%>
+            <div class="wrapper">
+            <h1> <%= name %> </h1>
+            <a href="/users/logout"><button>LOGOUT</button></a>
+          </div>
+          <% } %>
+        <a href="/diary/show">DiaryWrite</a>
+        <a href="/diary/secret">SecretDiary</a>
+        <a href="/diary/texts">PublicDiary</a>
+        <a href="/users/token">Token</a>
+        
+      </div>
+  <body>
+    
+      <% if(posts.replys){
+        for(let reply of post.replys){ %>
+        <tr>
+            <td><%= reply.dataValues.comment %></td>
+            <td><%= reply.dataValues.email %></td>
+          <% if(reply.dataValues.email === name) {%>
+        <form action="/diary/reply-delete/<%=reply.dataValues.id%>" method="post">
+            <td><input type="submit" value="삭제하기"></input></td>
+        </form>
+      </tr>
+      <% }%>
+        <% } %>
+    <% } %>
+    <div class = "main">
+    <h1>공개 일기장 보기</h1>
+ 
+    <a href="show"><button><%= name %>님  일기 작성하기</button></a>
+    <hr />
+    <table>
+        
+        
+        <div class="timeline">
+        <% for(var i=posts.length-1; i>=0 ; i--) { %>
+          <% if(posts[i].id%2 === 0 && posts[i].public==="public"){ %>
+            <div class="container left">
+              <div class="content"
+              id="con<%=posts[i].id%>">
+                
+                  <h3><%= posts[i].createdAt %></h3>
+                  <h4><%= posts[i].email %> </h4>
+
+                  
+                  <p><%= posts[i].content %>
+                  <% if(posts[i].email === name) {%>
+                    <div>
+                  <button ><a href="edit/<%=posts[i].id%>">수정하기</a></button>
+                  <form action="/diary/delete/<%=posts[i].id%>" method="post">
+                    <input type="submit" value="삭제하기"></input>
+                  </form>
+                </div>
+                  <% }%>
+                  </p>
+
+                  <div class="reply">
+                      <form action="/diary/reply/<%=posts[i].id%>" method="post">    
+                            <input type="text" name="replyContent" placeholder="내용을 입력해주세요">
+                            <input type="submit" value="댓글 등록">   
+                    </form>
+                  </div>
+                  
+                  <div>
+               
+                      <% if(posts[i].replys){
+                        for(var j=posts[i].replys.length-1; j>=0; j--){ %>
+                          <div class="replyContainer">
+                            <p><span><%= posts[i].replys[j].dataValues.email%></span>
+                            <h5><%= posts[i].replys[j].dataValues.createdAt%></h5></p>
+                           <p> <%= posts[i].replys[j].dataValues.comment%></p>
+
+                          <% if(posts[i].replys[j].dataValues.email === name) {%>
+                        <form action="/diary/reply-delete/<%=posts[i].replys[j].dataValues.id%>" method="post">
+                            <input type="submit" value="삭제하기"></input>
+                        </form>
+                        <% }%>
+
+                      </div>
+                        <% } %>
+                    <% } %>
+                  
+                  
+                  </div>
+
+              </div>
+            </div>
+          <% } %>
+          <% if (posts[i].id%2 === 1 && posts[i].public==="public"){ %>
+            
+              <div class="container right">
+                <div class="content" id="con<%=posts[i].id%>">
+                    <h3><%= posts[i].createdAt %></h3>
+                    
+                    <h4><%= posts[i].email %> </h4>
+                  
+                    
+
+                    
+                    <p><%= posts[i].content %>
+                      <% if(posts[i].email === name) {%>
+                        <button ><a href="edit/<%=posts[i].id%>">수정하기</a></button>
+                        <form action="/diary/delete/<%=posts[i].id%>" method="post">
+                          <input type="submit" value="삭제하기"></input>
+                        </form>
+                        <% }%>
+                    </p> 
+                    
+                    <div class="reply">
+                        <form action="/diary/reply/<%=posts[i].id%>" method="post">    
+                              <input type="text" name="replyContent" placeholder="내용을 입력해주세요">
+                              <input type="submit" value="댓글 등록">   
+                      </form>
+                    </div>
+                    <div>
+                        
+
+
+
+
+
+
+
+
+                        <% if(posts[i].replys){
+                          for(var j=posts[i].replys.length-1; j>=0; j--){ %>
+                            <div class="replyContainer">
+                                <p><span><%= posts[i].replys[j].dataValues.email%></span>
+                                  <h5><%= posts[i].replys[j].dataValues.createdAt%></h5></p>
+                                 <p> <%= posts[i].replys[j].dataValues.comment%></p>
+      
+                            <% if(posts[i].replys[j].dataValues.email === name) {%>
+                          <form action="/diary/reply-delete/<%=posts[i].replys[j].dataValues.id%>" method="post">
+                              <input type="submit" value="삭제하기"></input>
+                          </form>
+                          <% }%>
+                        </div>
+
+                          <% } %>
+                      <% } %>
+
+                    
+                </div> 
+
+              </div>
+              </div>     
+            <% } %>
+
+
+          <% }%>
+
+        </div>
+
+
+
+
+
+
+
+
+
+          <tr>
+              <% if(posts.email === name) {%>
+              <td><button ><a href="edit/<%=post.id%>">수정하기</a></button></td>
+          
+          <form action="/diary/delete/<%=post.id%>" method="post">
+              <td><input type="submit" value="삭제하기"></input></td>
+          </form>
+        </tr> 
+          
+
+            <form action="/diary/reply/<%=post.id%>" method="post">
+              <tr>
+                  <td><input type="text" name="replyContent" placeholder="내용을 입력해주세요"></td>
+              </tr>
+              <tr>
+                  <td><input type="submit" value="댓글 등록"></td>
+              </tr>
+
+          </form>
+
+
+          <% if(post.replys){
+            for(let reply of post.replys){ %>
+            <tr>
+                <td><%= reply.dataValues.comment %></td>
+                <td><%= reply.dataValues.email %></td>
+              <% if(reply.dataValues.email === name) {%>
+            <form action="/diary/reply-delete/<%=reply.dataValues.id%>" method="post">
+                <td><input type="submit" value="삭제하기"></input></td>
+            </form>
+          </tr>
+          <% }%>
+            <% } %>
+
+      
+        <% } %>
+      
+
+
+        <% } %>
+
+        
+    </table>
+  </div>
+  </body>
+</html>

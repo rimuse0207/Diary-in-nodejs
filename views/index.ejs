@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+<!--       
+        <div>
+            <form action="/users/logins" method="post">
+              <input type="text" placeholder="Email" name="email" />
+              <input type="password" placeholder="Password" name="password" />
+              <input type="submit" value="login" />
+            </form>
+            <a href="users/sign_up"><button>sign_up</button></a>
+        
+        
+      </div>
+         -->
+        <!-- <a href="users/login"><button>Login</button></a> -->
+        <% if(locals.name) { %>
+        <nav><h2  ><%= name %></h2></nav>
+        <a href="users/logout"><button>LOGOUT</button></a>
+        <h1><%= title %></h1>
+        <a href="diary/texts"><button>POST</button></a>
+        <ul>
+            <% for(var i=0; i<length; i++){ %>
+              <a href = <%= filename[i] %>>
+                <li>
+                    <%= filename[i] %> 
+                </li>
+              </a>
+            <% } %>
+        </ul>
+        <span>
+          <h2>
+            <%= description %>
+          </h2>
+        </span>
+        <div>
+          <% if(locals.length) {%>
+            <a href="/create"><p>Create</p></a>
+            <% } %>
+          <% if(!locals.length) {%>
+          <a href= "<%= title %>/delete"><p>Delete</p></a>
+          <a href= "<%= title %>/update"><p>Update</p></a>
+        </div> <% } %>
+        <% } %>
+  </body>
+</html>

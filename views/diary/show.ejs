@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>목록 추가하기</h1>
+    <hr />
+    <form action="/diary/board" method="POST">
+      <table>
+        <tr>
+          <td>
+            <input type="radio" name="public" value="public" /> 공개
+            <input
+              type="radio"
+              name="public"
+              value="secret"
+              checked="checked"
+            />
+            비공개
+          </td>
+          <td>
+            <textarea
+              style="width:1400px;height:400px;"
+              name="inputTitle"
+              placeholder="내용을 입력하세요."
+            ></textarea>
+          </td>
+        </tr>
+      </table>
+
+      <input type="submit" value="전송하기" />
+    </form>
+  </body>
+</html>
